@@ -26,7 +26,33 @@ export default class Login extends Component {
         // // }
         // // usersRef.push(user);
 
-        
+        let email = this.state.username + "@calmunity.com";
+        firebase.auth().signInWithEmailAndPassword(email, this.state.password).catch(function(error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log(errorMessage);
+            // ...
+          });
+
+          firebase.auth().onAuthStateChanged(function(user) {
+            if (user) {
+              // User is signed in.
+              var displayName = user.displayName;
+              var email = user.email;
+              var emailVerified = user.emailVerified;
+              var photoURL = user.photoURL;
+              var isAnonymous = user.isAnonymous;
+              var uid = user.uid;
+              var providerData = user.providerData;
+              console.log(user);
+              // ...
+            } else {
+                console.log("user to be signed out");
+              // User is signed out.
+              // ...
+            }
+          });
     
         this.setState({
             loggedIn: 1
@@ -42,7 +68,7 @@ export default class Login extends Component {
       render() {
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <form>
                     <input
                     type="text"
                     name="username"
@@ -57,7 +83,7 @@ export default class Login extends Component {
                     onChange={this.handleChange}
                     value={this.state.password}
                     />
-                    <button>
+                    <button onClick={this.handleSubmit}>
                         <Link to="/dashboard">Login</Link>
                     </button>
                 </form>
