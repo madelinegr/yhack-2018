@@ -12,6 +12,9 @@ export default class DashboardHome extends Component {
                 <button>
                     <Link to="/journal"> Journal </Link>
                 </button>
+                <button>
+                    <Link to="/chat"> Chat </Link>
+                </button>
             </div>
         );
     }
