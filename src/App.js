@@ -13,16 +13,14 @@ class App extends Component {
           </div>
           <div id="permission_div">
             <h4>Needs Permission</h4>
-            <p id="token">{tokenText}</p>
+            <p id="token"></p>
             <button onClick={requestPermission()}>Request Permission</button>
           </div>
           <div id="messages"></div>
         </div>
     	);
   }
-
-
-
+}
 
 
 // Retrieve Firebase Messaging object.
@@ -189,5 +187,5 @@ messaging.usePublicVapidKey("BHOTL7nqEApmkhVLfzwlrdLWxamw7UPfjodIpguHrwmIoSsnDGF
     showHideDiv(tokenDivId, false);
     showHideDiv(permissionDivId, true);
   }
-}
+
 export default App;
