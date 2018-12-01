@@ -24,7 +24,8 @@ class TextAnalysis extends React.Component {
     this.state = {
       error: null,
       isLoaded: false,
-      items: ""
+      categories: "",
+      entities: [],
     };
   }
 
@@ -33,7 +34,7 @@ class TextAnalysis extends React.Component {
 
       const postParameters = {
      "document": {
-      "content": "i've been depressed for most of my teenage years, i'm 19 now and i've been feeling worse than ever for the last couple of months due to some internal issues, I do believe i'll resolve these issues with myself one day, but i'm scared i'll keep feeling this way... It's like there's no point in anything. Anything. I can't see how any of this can be worth it. I also keep fearing the day of my death, even if it's far far away. I'm scared that when it comes to the end i'll look back and not see the point of it all. I know that once I resolve these issues I have right now there'll just come others and i'm scared...",
+      "content": text,
       "type": "PLAIN_TEXT"
      },
      "features": {
@@ -56,10 +57,11 @@ class TextAnalysis extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
-          console.log(result.categories[0].name);
+          console.log(result);
           this.setState({
             isLoaded: true,
-            items: result.categories[0].name,
+            categories: result.categories[0].name,
+            entities: result.entities,
           });
         },
         // Note: it's important to handle errors here
@@ -75,13 +77,13 @@ class TextAnalysis extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, items } = this.state;
+    const { error, isLoaded, categories, entities } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
       return <div>Loading...</div>;
     } else {
-      return <div>Res: {items}</div>;
+      return <div>Res: {categories}</div>;
     }
   }
 }
