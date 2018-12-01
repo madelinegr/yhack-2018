@@ -45,3 +45,4 @@ fetch('https://language.googleapis.com/v1/documents:annotateText?key=AIzaSyBnfMY
 	console.log(res);
     return res;
 }).catch(err => err);
+
