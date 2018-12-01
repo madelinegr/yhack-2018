@@ -1,12 +1,61 @@
 import React, { Component } from 'react';
 import './App.css';
+import firebase from './firebase';
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      name: '',
+      username: ''
+    }
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+
+    const usersRef = firebase.database().ref('users');
+    const user = {
+      name: this.state.name,
+      username: this.state.username
+    }
+    usersRef.push(user);
+
+    this.setState({
+      name: '',
+      username: ''
+    });
+  }
+
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <p>Hello world!</p>
+          <form onSubmit={this.handleSubmit}>
+            <input
+              type="text"
+              name="name"
+              placeholder="What's your name?"
+              onChange={this.handleChange}
+              value={this.state.name}
+            />
+            <input
+              type="text"
+              name="username"
+              placeholder="Create a username"
+              onChange={this.handleChange}
+              value={this.state.username}
+             />
+            <button>Add Item</button>
+          </form>
         </header>
       </div>
     );
