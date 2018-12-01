@@ -11,21 +11,3 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // Learn more about service workers: http://bit.ly/CRA-PWA
 serviceWorker.unregister();
 
-// const postParameters = {
-//  "document": {
-//   "content": text,
-//   "type": "PLAIN_TEXT"
-//  },
-//  "features": {
-//   "classifyText": true,
-//   "extractDocumentSentiment": true,
-//   "extractEntities": true,
-//   "extractEntitySentiment": true,
-//   "extractSyntax": false
-//  }
-// }
-
-// $.post(`https://language.googleapis.com/v1/documents:annotateText?key=AIzaSyBnfMYcFxnIFu_X33YEPkbY95yP0IUwdbc`, postParameters, responseJSON => {
-// 	//api call to get various useful properties from given text
-// 	const response = JSON.parse(responseJSON);
-// });
