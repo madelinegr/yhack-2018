@@ -4,6 +4,7 @@ import DashboardHome from './DashboardHome'
 import Journal from './Journal'
 import Entry from './Entry'
 import CreateEntry from './CreateEntry';
+import Chat from './chat/Chat'
 
 // The Roster component matches one of two different routes
 // depending on the full pathname
@@ -13,6 +14,7 @@ const Dashboard = () => (
     <Route exact path='/journal' component={Journal}/>
     <Route exact path='/journal/new_entry' component={CreateEntry}/>
     <Route path='/journal/:number' component={Entry}/>
+    <Route path='/chat' component={Chat}/>
   </Switch>
 )
 
