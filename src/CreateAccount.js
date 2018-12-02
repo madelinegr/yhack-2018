@@ -2,63 +2,27 @@ import React, {Component} from 'react';
 import firebase from './firebase';
 import { Switch, Route, Link } from 'react-router-dom'
 
-// const CreateAccount = () => {
 export default class CreateAccount extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-          name: '',
+          first_name: '',
           username: '',
-          password: ''
+          password: '',
+          age: null,
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
       }
-    
+
       handleSubmit(e) {
         e.preventDefault();
-    
-        // const usersRef = firebase.database().ref('users');
-        // const user = {
-        //   name: this.state.name,
-        //   username: this.state.username
-        // }
-        // usersRef.push(user);
-
-
-
-
-
-        // firebase.auth().signInAnonymously().catch(function(error) {
-        //     // Handle Errors here.
-        //     var errorCode = error.code;
-        //     var errorMessage = error.message;
-        //     // ...
-        //     console.log(errorCode);
-        //     console.log(errorMessage);
-        //   });
-
-        //   firebase.auth().onAuthStateChanged(function(user) {
-        //     if (user) {
-        //       // User is signed in.
-        //       var isAnonymous = user.isAnonymous;
-        //       var uid = user.uid;
-
-        //       console.log("uid: " + uid);
-        //       // ...
-        //     } else {
-        //         console.log("user to be signed out");
-        //       // User is signed out.
-        //       // ...
-        //     }
-        //     // ...
-        //   });
-
 
         let email = this.state.username + "@calmunity.com";
         console.log(email);
 
-        firebase.auth().createUserWithEmailAndPassword(email, this.state.password).catch(function(error) {
+        firebase.auth().createUserWithEmailAndPassword(email, this.state.password)
+        .catch(function(error) {
             // Handle Errors here.
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -66,33 +30,33 @@ export default class CreateAccount extends Component {
             // ...
           });
 
+          let fn = this.state.first_name;
+          let un = this.state.username;
+          let a = this.state.age;
+
           firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
-              // User is signed in.
-            //   var displayName = user.displayName;
-            //   var email = user.email;
-            //   var emailVerified = user.emailVerified;
-            //   var photoURL = user.photoURL;
-            //   var isAnonymous = user.isAnonymous;
-            //   var uid = user.uid;
-            //   var providerData = user.providerData;
-                console.log(user);
-              // ...
+                console.log("in create account");
+                const usersRef = firebase.database().ref("users");
+                const user = {
+                    uid: firebase.auth().currentUser.uid,
+                    first_name: fn,
+                    username: un,
+                    age: a
+                }
+                usersRef.push(user);
             } else {
-                console.log('user is signed out');
-              // User is signed out.
-              // ...
+                console.log('user is to be signed out');
             }
           });
 
-    
         this.setState({
-          name: '',
+          first_name: '',
           username: '',
           password: ''
         });
       }
-    
+
       handleChange(e) {
         this.setState({
           [e.target.name]: e.target.value
@@ -102,13 +66,13 @@ export default class CreateAccount extends Component {
       render() {
         return (
             <div>
-                <form >
+                <form>
                     <input
                         type="text"
-                        name="name"
-                        placeholder="What's your name?"
+                        name="first_name"
+                        placeholder="What's your first name?"
                         onChange={this.handleChange}
-                        value={this.state.name}
+                        value={this.state.first_name}
                     />
                     <input
                         type="text"
@@ -125,7 +89,7 @@ export default class CreateAccount extends Component {
                         value={this.state.password}
                     />
                     <button onClick={this.handleSubmit}>
-                        <Link to="/dashboard">Sign up!</Link>
+                        <Link to="/dashboard">Sign Up!</Link>
                     </button>
                 </form>
             </div>

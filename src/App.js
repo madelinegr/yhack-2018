@@ -12,6 +12,13 @@ const username = 'madeline';
 
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      user: null // <-- add this line
+    }
+  }
+
   render() {
     return (
       <div className="App">
