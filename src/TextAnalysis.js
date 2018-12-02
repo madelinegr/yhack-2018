@@ -23,7 +23,7 @@ class TextAnalysis extends React.Component {
 
 
     newMessage(text, name) {
-        console.log(text);
+        // console.log(text);
         const postParameters = {
        "document": {
         "content": text,
@@ -53,7 +53,7 @@ class TextAnalysis extends React.Component {
               categories: result.categories,
               entities: result.entities,
             });
-            console.log(result);
+            // console.log(result);
             let categoryMatches = this.categorySimilarity();
             this.entitySimilarity(categoryMatches);
 
@@ -94,10 +94,10 @@ class TextAnalysis extends React.Component {
                 this.setState({allUser: snapshot.val()});
                 snapshot.forEach((childSnapshot) => {
                     var key = childSnapshot.key; // you will get your key here
-                    console.log(key);
+                    // console.log(key);
                     let user = snapshot.val()[key];
-                    console.log(user);
-                    console.log(user.messages);
+                    // console.log(user);
+                    // console.log(user.messages);
                     this.setState({user});
                 });
         });
@@ -179,7 +179,7 @@ class TextAnalysis extends React.Component {
         let userSimilarities = {};
         possibleUsers.forEach(user => {
             let maxSimilarity = 0;
-            console.log("\n\n\n");
+            // console.log("\n\n\n");
             user.messages.forEach(message=> {
                 let otherEntitites = message.entities;
                 if(otherEntitites != null && this.state.entities != null){
@@ -201,11 +201,11 @@ class TextAnalysis extends React.Component {
                     });
                     maxSimilarity = Math.max(maxSimilarity, msgSimilarity);
                 }
-                console.log(message);
+                // console.log(message);
             })
             userSimilarities[user.name] = maxSimilarity;
-            console.log(this.state.entities);
-            console.log(userSimilarities);
+            // console.log(this.state.entities);
+            // console.log(userSimilarities);
             
         });
         return userSimilarities;
