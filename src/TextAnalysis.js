@@ -12,12 +12,13 @@ class TextAnalysis extends React.Component {
         isLoaded: false,
         categories: [],
         entities: [],
-        numToDo: 0
+        numToDo: 0,
+        users:[]
       };
     }
   
     componentDidMount() {
-        this.newMessage("this is my super cool message", "123");
+        this.newMessage("This weekend, you have access to Marquee by Goldman Sachs, where you can learn about and access our Global Investment Research (GIR) Factor Profile Percentiles dataset. ", "123");
     }
 
 
@@ -55,11 +56,10 @@ class TextAnalysis extends React.Component {
             console.log(result);
             let categoryMatches = this.categorySimilarity();
             this.entitySimilarity(categoryMatches);
+
+            //TODO:save categories and entities in db
             
           },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
           (error) => {
             this.setState({
               isLoaded: true,
@@ -91,6 +91,7 @@ class TextAnalysis extends React.Component {
         ref.orderByChild("uid")
             .equalTo(curr_user_id)
             .on('value', (snapshot) => {
+                this.setState({allUser: snapshot.val()});
                 snapshot.forEach((childSnapshot) => {
                     var key = childSnapshot.key; // you will get your key here
                     console.log(key);
@@ -142,26 +143,26 @@ class TextAnalysis extends React.Component {
         (result) => {
             if(result != null){
                 result.forEach(res => {
-                    if(typeof res === 'string' || res instanceof String){
-                        this.state.entities.push(
-                            {
+                    if(typeof res === 'string' || res instanceof String){     
+                        let newEntity=    {
                             name: res,
                             salience: entity.salience / 3,
-                        });
+                        };
+                        //TODO: add to db
                     } else{
                         if(res.meta.syns != null){
                             res.meta.syns[0].forEach(syn => {
-                                this.state.entities.push(
-                                    {
+                                let newEntity=    {
                                     name: syn,
                                     salience: entity.salience / 3,
-                                });
+                                };
+                                //TODO: add to db
                             });
                         }
                         
                     }       
                 });
-                this.state.numToDo --;
+                this.setState({numToDo: this.state.numToDo - 1});
                 if (this.state.numToDo == 0) {
                     resolve("it worked");
                 }
@@ -207,6 +208,7 @@ class TextAnalysis extends React.Component {
             console.log(userSimilarities);
             
         });
+        return userSimilarities;
     }
 
 
