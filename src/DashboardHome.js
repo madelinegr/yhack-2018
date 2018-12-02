@@ -27,10 +27,10 @@ export default class DashboardHome extends Component {
                 });
         });
 
-        ref = firebase.database().ref('entries');
+        var ref2 = firebase.database().ref('entries');
         let newState = [];
 
-        ref.orderByChild("owner_uid")
+        ref2.orderByChild("owner_uid")
         .equalTo(curr_user_id)
         .on('value', (snapshot) => {
             snapshot.forEach((childSnapshot) => {

@@ -8,6 +8,7 @@ export default class CreateEntry extends Component {
         super(props);
         this.state = {
             content: "",
+            newEntry: null,
         }
         this.handleChange = this.handleChange.bind(this);
         this.submit = this.submit.bind(this);
@@ -24,11 +25,11 @@ export default class CreateEntry extends Component {
      submit(e) {
           console.log(this.props.location.state.posts);
         let curr_user_id = firebase.auth().currentUser.uid;
-        // e.preventDefault();
+        e.preventDefault();
 
-        const ref = firebase.database().ref("entries");
+        var ref = firebase.database().ref("entries");
 
-        const entry = {
+        var entry = {
             owner_uid: curr_user_id,
             date: Date.now(),
             content: this.state.content,
@@ -58,7 +59,9 @@ export default class CreateEntry extends Component {
                     onChange={this.handleChange}
                     value={this.state.content}
                 />
-                <button onClick={this.submit}>Save Entry!</button>
+                <button onClick={this.submit}>
+                    <Link to={{ pathname:"/journal", state:{posts: this.props.location.state.posts}}}>Save Entry!</Link>
+                </button>
             </div>
         )
     }
