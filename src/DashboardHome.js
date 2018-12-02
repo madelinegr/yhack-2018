@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 import './DashboardHome.css';
 import Journal from './Journal';
-import  ChatBot from './chat/ChatBot';
+import  ChatBot from './chat/Chatbot';
 import Chat  from './chat/Chat';
 import firebase from './firebase';
 
@@ -52,7 +52,6 @@ export default class DashboardHome extends Component {
     }
 
     render() {
-<<<<<<< HEAD
         return (
           <div>
             <div>
@@ -74,32 +73,30 @@ export default class DashboardHome extends Component {
           </div>
         );
       }
-=======
+
         // ref.on('value', (snapshot) => {
         //     let user = snapshot.val();
         //     console.log(user);
         // });
 
-        if (this.state.user && this.state.user !== undefined) {
-            return (
-                <div>
-                    <h1>
-                        Welcome to calmunity, {this.state.user.first_name}!
-                    </h1>
-                    <button>
-                        <Link to={{pathname: "/journal", state: {posts: this.state.posts}}}> Journal </Link>
-                    </button>
-                    <button>
-                        <Link to="/chat"> Chat </Link>
-                    </button>
-                    <button>
-                        <Link to="/chatbot"> Chat Bot</Link>
-                    </button>
-                </div>
-            );
-        } else {
-            return (<div />);
-        }
-    }
->>>>>>> f14269d56535f27440ea1df267cd6af9e31ed8f4
-}
+        // if (this.state.user && this.state.user !== undefined) {
+        //     return (
+        //         <div>
+        //             <h1>
+        //                 Welcome to calmunity, {this.state.user.first_name}!
+        //             </h1>
+        //             <button>
+        //                 <Link to={{pathname: "/journal", state: {posts: this.state.posts}}}> Journal </Link>
+        //             </button>
+        //             <button>
+        //                 <Link to="/chat"> Chat </Link>
+        //             </button>
+        //             <button>
+        //                 <Link to="/chatbot"> Chat Bot</Link>
+        //             </button>
+        //         </div>
+        //     );
+        // } else {
+        //     return (<div />);
+        // }
+  }

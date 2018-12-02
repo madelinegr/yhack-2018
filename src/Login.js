@@ -90,12 +90,11 @@ export default class Login extends Component {
                       onChange={this.handleChange}
                       value={this.state.password}
                     />
-                    </form>
-                    <button className='white-btn' onClick={this.handleSubmit} style={{margin: '30px'}}>
-                        <Link to="/dashboard" style={{textDecoration: 'none', fontSize: '30px', color: '#0f738b'}}>Login</Link>
-                    </button>
-
-          </div>
+              </form>
+              <button className='white-btn' onClick={this.handleSubmit} style={{margin: '30px'}}>
+                    <Link to="/dashboardhome" style={{textDecoration: 'none', fontSize: '30px', color: '#0f738b'}}>Login</Link>
+              </button>
+                  </div>
         );
 
     }

@@ -28,18 +28,17 @@ const Dashboard = () => (
           <Link to="/dashboardhome" style={{textDecoration: 'none', fontSize: '30px', color: '#0f738b'}}>Connect</Link>
       </button>
       </center>
+      </div>
+      // <Switch>
+      //   <Route exact path='/dashboard' component={DashboardHome}/>
+      //   <Route exact path='/journal' component={Journal}/>
+      //   <Route exact path='/journal/new_entry' component={CreateEntry}/>
+      //   <Route path='/journal/:number' component={Entry}/>
+      //   <Route path='/chat' component={Chat}/>
+      //   <Route path='/chatbot' component={ChatBot}/>
+      // </Switch>
+    );
 
-      <Switch>
-        <Route exact path='/dashboard' component={DashboardHome}/>
-        <Route exact path='/journal' component={Journal}/>
-        <Route exact path='/journal/new_entry' component={CreateEntry}/>
-        <Route path='/journal/:number' component={Entry}/>
-        <Route path='/chat' component={Chat}/>
-        <Route path='/chatbot' component={ChatBot}/>
-      </Switch>
-    )
-    </div>
-);
 
   // <Switch>
   //   <Route exact path='/dashboard' component={DashboardHome}/>
