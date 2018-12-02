@@ -1,0 +1,6 @@
+# Calmunity
+Project for YHack 2018
+
+Many people feel overwhelmed by their life yet lack an outlet to discuss and overcome these negative emotions. Discussing problems with friends has become taboo and psychological services tend to take extreme measures, causing many people to feel unable to share their true thoughts. Therefore, we created 'Calmunity' to foster a free and peaceful community where people feel comfortable complaining, venting, and seeking out help. Users can set up near anonymous accounts and simply enter text that they wish to share. Our platform will then allow the user to save this text in a journal, start chatting with another user about this text or chat with our positivity bot.
+
+The journaling system collects and organizes thoughts in an accessible manner. The peer chat feature gets language data from Google Cloud NLP and then runs the data through an algorithm to match topics, entities, and sentiments between users, such that a user who wants to talk about a specific idea will be paired with another user who discussed a similar idea in the past. Our bot uses DailogFlow’s Machine Learning API to communicate clearly with the user. We trained the bot on expected input and output text.
