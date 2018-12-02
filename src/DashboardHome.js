@@ -13,7 +13,6 @@ export default class DashboardHome extends Component {
     }
 
     componentWillMount() {
-        if (!this.state.loaded) {
         let curr_user_id = firebase.auth().currentUser.uid;
         console.log(curr_user_id);
         var ref = firebase.database().ref("users"); // query to get all user data
@@ -47,7 +46,6 @@ export default class DashboardHome extends Component {
         console.log(curr_user_id);
         console.log(newState.length);
     }
-    }
 
     render() {
         // ref.on('value', (snapshot) => {
@@ -65,8 +63,11 @@ export default class DashboardHome extends Component {
                         <Link to={{pathname: "/journal", state: {posts: this.state.posts}}}> Journal </Link>
                     </button>
                     <button>
-                    <Link to="/chat"> Chat </Link>
-                </button>
+                        <Link to="/chat"> Chat </Link>
+                    </button>
+                    <button>
+                        <Link to="/chatbot"> Chat Bot</Link>
+                    </button>
                 </div>
             );
         } else {
