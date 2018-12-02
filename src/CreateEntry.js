@@ -14,12 +14,15 @@ export default class CreateEntry extends Component {
       }
 
       handleSubmit(e) {
+        let curr_user_id = firebase.auth().currentUser.uid;
         e.preventDefault();
 
         const ref = firebase.database().ref("entries");
         const entry = {
+            owner_uid: curr_user_id,
             date: Date.now(),
-            content: this.state.content
+            content: this.state.content,
+            entry_num: 1
         }
         ref.push(entry);
       }

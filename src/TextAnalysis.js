@@ -12,17 +12,18 @@ class TextAnalysis extends React.Component {
         isLoaded: false,
         categories: [],
         entities: [],
-        numToDo: 0
+        numToDo: 0,
+        users:[]
       };
     }
   
     componentDidMount() {
-        this.newMessage("this is my super cool message", "123");
+        this.newMessage("This weekend, you have access to Marquee by Goldman Sachs, where you can learn about and access our Global Investment Research (GIR) Factor Profile Percentiles dataset. ", "123");
     }
 
 
     newMessage(text, name) {
-        console.log(text);
+        // console.log(text);
         const postParameters = {
        "document": {
         "content": text,
@@ -52,14 +53,13 @@ class TextAnalysis extends React.Component {
               categories: result.categories,
               entities: result.entities,
             });
-            console.log(result);
+            // console.log(result);
             let categoryMatches = this.categorySimilarity();
             this.entitySimilarity(categoryMatches);
+
+            //TODO:save categories and entities in db
             
           },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
           (error) => {
             this.setState({
               isLoaded: true,
@@ -91,12 +91,13 @@ class TextAnalysis extends React.Component {
         ref.orderByChild("uid")
             .equalTo(curr_user_id)
             .on('value', (snapshot) => {
+                this.setState({allUser: snapshot.val()});
                 snapshot.forEach((childSnapshot) => {
                     var key = childSnapshot.key; // you will get your key here
-                    console.log(key);
+                    // console.log(key);
                     let user = snapshot.val()[key];
-                    console.log(user);
-                    console.log(user.messages);
+                    // console.log(user);
+                    // console.log(user.messages);
                     this.setState({user});
                 });
         });
@@ -142,26 +143,26 @@ class TextAnalysis extends React.Component {
         (result) => {
             if(result != null){
                 result.forEach(res => {
-                    if(typeof res === 'string' || res instanceof String){
-                        this.state.entities.push(
-                            {
+                    if(typeof res === 'string' || res instanceof String){     
+                        let newEntity=    {
                             name: res,
                             salience: entity.salience / 3,
-                        });
+                        };
+                        //TODO: add to db
                     } else{
                         if(res.meta.syns != null){
                             res.meta.syns[0].forEach(syn => {
-                                this.state.entities.push(
-                                    {
+                                let newEntity=    {
                                     name: syn,
                                     salience: entity.salience / 3,
-                                });
+                                };
+                                //TODO: add to db
                             });
                         }
                         
                     }       
                 });
-                this.state.numToDo --;
+                this.setState({numToDo: this.state.numToDo - 1});
                 if (this.state.numToDo == 0) {
                     resolve("it worked");
                 }
@@ -178,7 +179,7 @@ class TextAnalysis extends React.Component {
         let userSimilarities = {};
         possibleUsers.forEach(user => {
             let maxSimilarity = 0;
-            console.log("\n\n\n");
+            // console.log("\n\n\n");
             user.messages.forEach(message=> {
                 let otherEntitites = message.entities;
                 if(otherEntitites != null && this.state.entities != null){
@@ -200,13 +201,14 @@ class TextAnalysis extends React.Component {
                     });
                     maxSimilarity = Math.max(maxSimilarity, msgSimilarity);
                 }
-                console.log(message);
+                // console.log(message);
             })
             userSimilarities[user.name] = maxSimilarity;
-            console.log(this.state.entities);
-            console.log(userSimilarities);
+            // console.log(this.state.entities);
+            // console.log(userSimilarities);
             
         });
+        return userSimilarities;
     }
 
 
