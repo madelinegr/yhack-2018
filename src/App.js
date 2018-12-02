@@ -21,7 +21,6 @@ class App extends Component {
           <Header />
           <Main />
           <Dashboard />
-          <TextAnalysis />
         {/* </header> */}
       </div>
     );

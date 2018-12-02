@@ -42,7 +42,12 @@ export default class CreateAccount extends Component {
                     uid: firebase.auth().currentUser.uid,
                     first_name: fn,
                     username: un,
-                    age: a
+                    age: a,
+                    messages: [{
+                        text: "hello world",
+                        entities: [],
+                        categories: [],
+                    }]
                 }
                 usersRef.push(user);
             } else {
