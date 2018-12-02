@@ -7,22 +7,32 @@ export default class CreateEntry extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            content: null,
+            content: "",
         }
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.submit = this.submit.bind(this);
       }
 
-      handleSubmit(e) {
+      componentWillMount() {
+          console.log(this.props.location.state.posts);
+          this.setState({
+            posts: this.props.location.state.posts,
+            num_entries: this.props.location.state.posts.length + 1
+        });
+      }
+
+     submit(e) {
+          console.log(this.props.location.state.posts);
         let curr_user_id = firebase.auth().currentUser.uid;
-        e.preventDefault();
+        // e.preventDefault();
 
         const ref = firebase.database().ref("entries");
+
         const entry = {
             owner_uid: curr_user_id,
             date: Date.now(),
             content: this.state.content,
-            entry_num: 1
+            entry_num: this.state.num_entries
         }
         ref.push(entry);
       }
@@ -37,8 +47,10 @@ export default class CreateEntry extends Component {
     render() {
         return (
             <div>
-                <Link to='/journal'>Back to Journal</Link>
-                <h1>Entry #</h1>
+                <Link to={{ pathname:"/journal", state:{posts: this.props.location.state.posts}}}>
+                    Back to Journal
+                </Link>
+                <h1>Entry #{this.state.num_entries}</h1>
                 <textarea
                     // type="text"
                     name="content"
@@ -46,9 +58,7 @@ export default class CreateEntry extends Component {
                     onChange={this.handleChange}
                     value={this.state.content}
                 />
-                <button onClick={this.handleSubmit}>
-                    <Link to='/journal'>Save Entry!</Link>
-                </button>
+                <button onClick={this.submit}>Save Entry!</button>
             </div>
         )
     }

@@ -11,26 +11,11 @@ export default class Journal extends Component {
           posts: []
         }
       }
+
     // var credential = firebase.auth.EmailAuthProvider.credential(email, password);
-    componentDidMount() {
-        let curr_user_id = firebase.auth().currentUser.uid;
+    componentWillMount() {
+        this.setState({posts: this.props.location.state.posts});
 
-        const ref = firebase.database().ref('entries');
-        let newState = [];
-        ref.orderByChild("owner_uid")
-            .equalTo(curr_user_id)
-            .on('value', (snapshot) => {
-                snapshot.forEach((childSnapshot) => {
-                    var key = childSnapshot.key; // you will get your key here
-                    let x = snapshot.val()[key];
-                    console.log(x);
-                    newState.push(x);
-                });
-        });
-
-        this.setState({posts: newState});
-        console.log(curr_user_id);
-        console.log(newState);
         // postsRef.on('value', (snapshot) => {
         //     let posts = snapshot.val();
         //     let newState = [];
@@ -49,22 +34,24 @@ export default class Journal extends Component {
 
     render() {
         console.log(this.state.posts);
-        if (this.state.posts.length > 0) {
-            console.log(this.state.posts[0]);
-        }
-
         return (
             <div>
                 <button>
-                    <Link to="/journal/new_entry"> Click here to make a new blog post </Link>
+                    <Link to={{ pathname: "/journal/new_entry", state: {posts: this.state.posts} }}>
+                        Click here to make a new blog post
+                    </Link>
                 </button>
                 {this.state.posts.length > 0 ?
                     <ul>
-                        <li>
-                            <Link to={`/journal/${this.state.posts[0].entry_num}`}>
-                                Entry # {this.state.posts[0].entry_num}
-                            </Link>
-                        </li>
+                        {
+                            this.state.posts.map(p => (
+                                <li key={p.entry_num}>
+                                    <Link to={{ pathname: `/journal/${p.entry_num}`, state: {posts: this.state.posts}}}>
+                                        Entry # {p.entry_num}
+                                    </Link>
+                                </li>
+                            ))
+                        }
                     </ul>
                     :
                     null

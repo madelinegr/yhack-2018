@@ -93,6 +93,13 @@ export default class CreateAccount extends Component {
                         onChange={this.handleChange}
                         value={this.state.password}
                     />
+                    <input
+                        type="number"
+                        name="age"
+                        placeholder="Enter your aage"
+                        onChange={this.handleChange}
+                        value={this.state.age}
+                    />
                     <button onClick={this.handleSubmit}>
                         <Link to="/dashboard">Sign Up!</Link>
                     </button>
