@@ -19,4 +19,55 @@ export default class ChatBot extends Component {
             </div>
         );
     }
+/*
+    componentDidMount(){
+        var apiai = require('apiai');
+
+var app = apiai("<your client access token>");
+
+var request = app.textRequest('<Your text query>', {
+    sessionId: '<unique session id>'
+});
+
+request.on('response', function(response) {
+    console.log(response);
+});
+
+request.on('error', function(error) {
+    console.log(error);
+});
+
+request.end();
+
+fetch('https://language.googleapis.com/v1/documents:annotateText?key=AIzaSyBnfMYcFxnIFu_X33YEPkbY95yP0IUwdbc', {    
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(postParameters),
+    })
+  .then(res => res.json())
+  .then(
+    (result) => {
+      this.setState({
+        isLoaded: true,
+        categories: result.categories,
+        entities: result.entities,
+        sentiment: result.documentSentiment,
+      });
+      console.log(result);
+      let categoryMatches = this.categorySimilarity();
+      console.log(this.entitySimilarity(categoryMatches));
+
+      //TODO:save categories and entities in db
+      
+    },
+    (error) => {
+      this.setState({
+        isLoaded: true,
+        error
+      });
+    }
+  )
+    }*/
 }
