@@ -38,18 +38,19 @@ export default class Login extends Component {
 
           firebase.auth().onAuthStateChanged(function(user) {
             if (user) {
+                console.log(firebase.auth().currentUser);
               // User is signed in.
-              var displayName = user.displayName;
-              var email = user.email;
-              var emailVerified = user.emailVerified;
-              var photoURL = user.photoURL;
-              var isAnonymous = user.isAnonymous;
-              var uid = user.uid;
-              var providerData = user.providerData;
-              console.log(user);
+            //   var displayName = user.displayName;
+            //   var email = user.email;
+            //   var emailVerified = user.emailVerified;
+            //   var photoURL = user.photoURL;
+            //   var isAnonymous = user.isAnonymous;
+            //   var uid = user.uid;
+            //   var providerData = user.providerData;
+            //   console.log(user);
               // ...
             } else {
-                console.log("user to be signed out");
+                // console.log("user to be signed out");
               // User is signed out.
               // ...
             }
