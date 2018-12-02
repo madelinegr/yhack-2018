@@ -25,7 +25,7 @@ export default class DashboardHome extends Component {
                     this.setState({user: x});
                 });
         });
-    }
+    } 
     
     render() {
         // ref.on('value', (snapshot) => {

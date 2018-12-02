@@ -2,17 +2,39 @@ import React, { Component } from 'react';
 import './Form.css';
 import Message from './Message';
 import firebase from 'firebase';
+
 export default class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: 'Sebastian',
+      userName: null,
       message: '',
       list: [],
     };
     this.messageRef = firebase.database().ref().child('messages');
     this.listenMessages();
   }
+
+  componentDidMount() {
+    let curr_user_id = firebase.auth().currentUser.uid;
+    console.log(curr_user_id);
+    var ref = firebase.database().ref("users");
+    console.log("stop1")
+    ref.orderByChild("uid")
+        .equalTo(curr_user_id)
+        .on('value', (snapshot) => {
+          console.log("stop2")
+            snapshot.forEach((childSnapshot) => {
+              console.log("stop3")
+                var key = childSnapshot.key; // you will get your key here
+                let x = snapshot.val()[key];
+                console.log(x.first_name);
+                this.setState({userName: x.first_name});
+                console.log(this.state.userName)
+            });
+        });
+  }    
+
   componentWillReceiveProps(nextProps) {
     if(nextProps.user) {
       this.setState({'userName': nextProps.user.displayName});
