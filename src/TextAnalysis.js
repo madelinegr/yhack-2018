@@ -1,7 +1,4 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
-import DashboardHome from './DashboardHome'
-import Journal from './Journal' 
 import firebase from './firebase';
 
 class TextAnalysis extends React.Component {
@@ -12,6 +9,7 @@ class TextAnalysis extends React.Component {
         isLoaded: false,
         categories: [],
         entities: [],
+        sentiment: {},
         numToDo: 0,
         users:[]
       };
@@ -52,10 +50,11 @@ class TextAnalysis extends React.Component {
               isLoaded: true,
               categories: result.categories,
               entities: result.entities,
+              sentiment: result.documentSentiment,
             });
-            // console.log(result);
+            console.log(result);
             let categoryMatches = this.categorySimilarity();
-            this.entitySimilarity(categoryMatches);
+            console.log(this.entitySimilarity(categoryMatches));
 
             //TODO:save categories and entities in db
             
@@ -86,21 +85,17 @@ class TextAnalysis extends React.Component {
     
 
     categorySimilarity(){
-        let curr_user_id = firebase.auth().currentUser.uid;
         var ref = firebase.database().ref("users"); // query to get all user data
-        ref.orderByChild("uid")
-            .equalTo(curr_user_id)
-            .on('value', (snapshot) => {
-                this.setState({allUser: snapshot.val()});
-                snapshot.forEach((childSnapshot) => {
-                    var key = childSnapshot.key; // you will get your key here
-                    // console.log(key);
-                    let user = snapshot.val()[key];
-                    // console.log(user);
-                    // console.log(user.messages);
-                    this.setState({user});
-                });
+
+        let allUsers = [];
+        ref.on('value', snapshot => {
+            snapshot.forEach((childSnapshot) => {
+                var key = childSnapshot.key; // you will get your key here
+                let user = snapshot.val()[key];
+                allUsers.push(user);
+            })
         });
+        this.setState({users: allUsers});
 
 
         let categories = this.state.categories;
@@ -114,24 +109,46 @@ class TextAnalysis extends React.Component {
             let currCategory = categoryPath.slice(0, i);
             let commonUsers = [];
             this.state.users.forEach(user => {
-
-                user.messages.forEach(message => {
-                    if(message.categories != null && message.categories.length != 0){
-                        let userPath = message.categories[0].name.split('/');
-                        if(userPath.length >= i){
-                            let userCategory = userPath.slice(0, i);
-                            if(userCategory == currCategory){
-                                commonUsers.add(user);
+                if(user.messages != null){
+                    user.messages.forEach(message => {
+                        if(message.categories != null && message.categories.length != 0){
+                            let userPath = message.categories[0].name.split('/');
+                            if(userPath.length >= i){
+                                let userCategory = userPath.slice(0, i);
+                                if(userCategory == currCategory){
+                                    commonUsers.add(user);
+                                }
                             }
                         }
-                    }
-                });
+                    });
+                }
             });
             //we got results
             if(commonUsers.length != 0) return commonUsers;
         }
         //no matches
         return this.state.users;
+    }
+
+    entitySimilarity(possibleUsers){
+        // let users = firebase.database().ref('users');
+         let this2 = this;
+         this.entitySimilarPromise().then(function(response) {
+             this2.entityCommon(possibleUsers);
+         })
+     }
+
+     entitySimilarPromise() {
+        let entities = this.state.entities;
+        let this2 = this;
+        return new Promise(function(resolve, reject) {
+            if(entities != null){
+                    this2.state.numToDo = entities.length;
+                    entities.forEach(entity => {
+                        this2.entityThesourous(entity, resolve);
+                    }); 
+               }
+        });
     }
 
     entityThesourous(entity, resolve){
@@ -165,9 +182,7 @@ class TextAnalysis extends React.Component {
                 this.setState({numToDo: this.state.numToDo - 1});
                 if (this.state.numToDo == 0) {
                     resolve("it worked");
-                }
-                
-                
+                }         
             }
         
         },
@@ -176,10 +191,10 @@ class TextAnalysis extends React.Component {
     }
 
     entityCommon(possibleUsers){
-        let userSimilarities = {};
+        let userSimilarities = [];
         possibleUsers.forEach(user => {
             let maxSimilarity = 0;
-            // console.log("\n\n\n");
+            if(user.messages != null){
             user.messages.forEach(message=> {
                 let otherEntitites = message.entities;
                 if(otherEntitites != null && this.state.entities != null){
@@ -201,38 +216,40 @@ class TextAnalysis extends React.Component {
                     });
                     maxSimilarity = Math.max(maxSimilarity, msgSimilarity);
                 }
-                // console.log(message);
             })
-            userSimilarities[user.name] = maxSimilarity;
-            // console.log(this.state.entities);
-            // console.log(userSimilarities);
+            }
+            user["score"] = maxSimilarity;
+            userSimilarities.push(user);
             
         });
-        return userSimilarities;
+        console.log(userSimilarities);
+        return this.sentimentSimilarity(userSimilarities);
     }
 
+    sentimentSimilarity(currentRankings){
+        let newRankings = {};
+        currentRankings.forEach(user=> {
+            if(user.messages != null){
+            user.messages.forEach(message=> {
+                let sentiment = message.documentSentiment;
+                let newSentiment = this.state.sentiment;
+                //TODO: comment below line out
+                sentiment = newSentiment;
+                console.log(newSentiment);
+                //find 'dist' bt two sentiment scores
+                let sentDist = (sentiment.magnitude - newSentiment.magnitude)^2 + 
+                    (sentiment.score - newSentiment.score)^2;
+                let normDist = 2 / Math.abs(sentDist + 1);
+                console.log(normDist);
+                user.score = user.score + normDist;
 
-    entitySimilarPromise() {
-        let entities = this.state.entities;
-        let this2 = this;
-        return new Promise(function(resolve, reject) {
-            if(entities != null){
-                    this2.state.numToDo = entities.length;
-                    entities.forEach(entity => {
-                        this2.entityThesourous(entity, resolve);
-                    }); 
-               }
-
-         
-        });
-    }
-
-    entitySimilarity(possibleUsers){
-       // let users = firebase.database().ref('users');
-        let this2 = this;
-        this.entitySimilarPromise().then(function(response) {
-            this2.entityCommon(possibleUsers);
+            });
+            newRankings[user.uid] = user.score;
+            }
         })
+        console.log(newRankings);
+        return newRankings;
+
     }
 
   }
