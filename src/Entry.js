@@ -6,7 +6,8 @@ const Entry = (props) => {
     console.log(props);
     return (
         <div>
-          <h1>(Entry #)</h1>
+          <h1>Entry #1</h1>
+          <p></p>
           <Link to='/journal'>Back to Journal</Link>
         </div>
       )
