@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import firebase from './firebase';
 import { Switch, Route, Link } from 'react-router-dom'
 import Dashboard from './Dashboard';
+import './Login.css';
 
 // const CreateAccount = () => {
 export default class Login extends Component {
@@ -15,10 +16,10 @@ export default class Login extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
       }
-    
+
       handleSubmit(e) {
         // e.preventDefault();
-    
+
         // // const usersRef = firebase.database().ref('users');
         // // const user = {
         // //   name: this.state.name,
@@ -53,12 +54,12 @@ export default class Login extends Component {
               // ...
             }
           });
-    
+
         this.setState({
             loggedIn: 1
         });
       }
-    
+
       handleChange(e) {
         this.setState({
           [e.target.name]: e.target.value
@@ -68,31 +69,33 @@ export default class Login extends Component {
       render() {
         return (
             <div>
-                <form>
+              <strong><h1>Welcome Back!</h1></strong>
+              <form>
+                <h3 style={{marginTop: '30px', marginLeft: '30px'}}>Username</h3>
                     <input
-                    type="text"
-                    name="username"
-                    placeholder="username"
-                    onChange={this.handleChange}
-                    value={this.state.username}
+                      style={{marginTop: '0px'}}
+                      type="text"
+                      name="username"
+                      placeholder="username"
+                      onChange={this.handleChange}
+                      value={this.state.username}
                     />
+                  <h3 style={{marginTop: '30px', marginLeft: '30px'}}>Password</h3>
                     <input
-                    type="text"
-                    name="password"
-                    placeholder="password"
-                    onChange={this.handleChange}
-                    value={this.state.password}
+                      style={{marginTop: '0px'}}
+                      type="text"
+                      name="password"
+                      placeholder="password"
+                      onChange={this.handleChange}
+                      value={this.state.password}
                     />
-                    <button onClick={this.handleSubmit}>
-                        <Link to="/dashboard">Login</Link>
+                    </form>
+                    <button className='white-btn' onClick={this.handleSubmit} style={{margin: '30px'}}>
+                        <Link to="/dashboard" style={{textDecoration: 'none', fontSize: '30px', color: '#0f738b'}}>Login</Link>
                     </button>
-                </form>
-                {/* {this.state.loggedIn ?
-                    <p>Just logged {this.state.username} in!</p>
-                    :
-                    null
-                } */}
-            </div>
+
+          </div>
         );
+
     }
 };

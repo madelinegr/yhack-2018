@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import $ from 'jquery'
 import './App.css';
 import Header from './Header';
 import Main from './Main';
@@ -52,7 +53,7 @@ export default App;
 //      }
 //     }
 
-//     fetch('https://language.googleapis.com/v1/documents:annotateText?key=AIzaSyBnfMYcFxnIFu_X33YEPkbY95yP0IUwdbc', {    
+//     fetch('https://language.googleapis.com/v1/documents:annotateText?key=AIzaSyBnfMYcFxnIFu_X33YEPkbY95yP0IUwdbc', {
 //         method: 'POST',
 //         //mode: 'CORS',
 //         headers: {
