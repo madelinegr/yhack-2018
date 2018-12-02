@@ -16,6 +16,11 @@ class TextAnalysis extends React.Component {
       };
     }
   
+    componentDidMount() {
+        this.newMessage("this is my super cool message", "123");
+    }
+
+
     newMessage(text, name) {
         console.log(text);
         const postParameters = {
@@ -66,7 +71,6 @@ class TextAnalysis extends React.Component {
     }
   
     render() {
-        this.newMessage("this is my super cool message", "123");
       const { error, isLoaded, categories, entities } = this.state;
       if (error) {
         return <div>Error: {error.message}</div>;
@@ -90,10 +94,10 @@ class TextAnalysis extends React.Component {
                 snapshot.forEach((childSnapshot) => {
                     var key = childSnapshot.key; // you will get your key here
                     console.log(key);
-                    let x = snapshot.val()[key];
-                    console.log(x);
-                    console.log(x.messages);
-                    this.setState({user: x});
+                    let user = snapshot.val()[key];
+                    console.log(user);
+                    console.log(user.messages);
+                    this.setState({user});
                 });
         });
 
