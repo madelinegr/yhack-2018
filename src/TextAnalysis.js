@@ -125,6 +125,22 @@ class TextAnalysis extends React.Component {
     
 
     categorySimilarity(){
+        let curr_user_id = firebase.auth().currentUser.uid;
+        var ref = firebase.database().ref("users"); // query to get all user data
+        ref.orderByChild("uid")
+            .equalTo(curr_user_id)
+            .on('value', (snapshot) => {
+                snapshot.forEach((childSnapshot) => {
+                    var key = childSnapshot.key; // you will get your key here
+                    console.log(key);
+                    let x = snapshot.val()[key];
+                    console.log(x);
+                    console.log(x.messages);
+                    this.setState({user: x});
+                });
+        });
+
+
         let categories = this.state.categories;
         //if no category, can't narrow it down, so search other things on all users
         if(categories == null || categories.length == 0) return this.state.users;

@@ -14,7 +14,7 @@ export default class DashboardHome extends Component {
     componentDidMount() {
         let curr_user_id = firebase.auth().currentUser.uid;
         console.log(curr_user_id);
-        var ref = firebase.database().ref("users");
+        var ref = firebase.database().ref("users"); // query to get all user data
         ref.orderByChild("uid")
             .equalTo(curr_user_id)
             .on('value', (snapshot) => {
