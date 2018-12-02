@@ -17,9 +17,7 @@ export default class Form extends Component {
 
   componentDidMount() {
     let curr_user_id = firebase.auth().currentUser.uid;
-    console.log(curr_user_id);
     var ref = firebase.database().ref("users");
-    console.log("stop1")
     ref.orderByChild("uid")
         .equalTo(curr_user_id)
         .on('value', (snapshot) => {
@@ -29,17 +27,19 @@ export default class Form extends Component {
                 var key = childSnapshot.key; // you will get your key here
                 let x = snapshot.val()[key];
                 console.log(x.first_name);
-                this.setState({userName: x.first_name});
+                if (this.state.userName !== x) {
+                  this.setState({userName: x.first_name});
+                }
                 console.log(this.state.userName)
             });
         });
-  }    
-
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.user) {
-      this.setState({'userName': nextProps.user.displayName});
-    }
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   if(nextProps.user) {
+  //     this.setState({'userName': nextProps.user.displayName});
+  //   }
+  // }
   handleChange(event) {
     this.setState({message: event.target.value});
   }
