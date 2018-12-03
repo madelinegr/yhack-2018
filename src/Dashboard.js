@@ -27,6 +27,16 @@ const Dashboard = () => (
       <button className='white-btn' style={{margin: '30px'}}>
           <Link to="/dashboardhome" style={{textDecoration: 'none', fontSize: '30px', color: '#0f738b'}}>Connect</Link>
       </button>
+
+      <Switch>
+        <Route exact path='/dashboard' component={DashboardHome}/>
+        <Route exact path='/journal' component={Journal}/>
+        <Route exact path='/journal/new_entry' component={CreateEntry}/>
+        <Route path='/journal/:number' component={Entry}/>
+        <Route path='/chat' component={Chat}/>
+        <Route path='/chatbot' component={ChatBot}/>
+      </Switch>
+
       </center>
       </div>
       // <Switch>

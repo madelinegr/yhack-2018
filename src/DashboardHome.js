@@ -52,51 +52,52 @@ export default class DashboardHome extends Component {
     }
 
     render() {
-        return (
-          <div>
-            <div>
-              <button className='white-btn'>
-                  <Link to="/journal" style={{textDecoration: 'none', fontSize: '30px', color: '#0f738b'}}>Journal</Link>
-              </button>
-              <button className='white-btn'>
-                  <Link to="/chat/chatbot" style={{textDecoration: 'none', fontSize: '30px', color: '#0f738b'}}>Personal Space</Link>
-              </button>
-              <button className='white-btn'>
-                  <Link to="/chat/chat" style={{textDecoration: 'none', fontSize: '30px', color: '#0f738b'}}>Chat</Link>
-              </button>
-            </div>
-            <Switch>
-              <Route path= "/journal" component={Journal} />
-              <Route path='/chat/chatbot' component={ChatBot}/>
-              <Route path='/chat/chat' component={Chat}/>
-            </Switch>
-          </div>
-        );
-      }
+        // return (
+      //     <div>
+      //       <div>
+      //         <button className='white-btn'>
+      //             <Link to="/journal" style={{textDecoration: 'none', fontSize: '30px', color: '#0f738b'}}>Journal</Link>
+      //         </button>
+      //         <button className='white-btn'>
+      //             <Link to="/chat/chatbot" style={{textDecoration: 'none', fontSize: '30px', color: '#0f738b'}}>Personal Space</Link>
+      //         </button>
+      //         <button className='white-btn'>
+      //             <Link to="/chat/chat" style={{textDecoration: 'none', fontSize: '30px', color: '#0f738b'}}>Chat</Link>
+      //         </button>
+      //       </div>
+      //       <Switch>
+      //         <Route path= "/journal" component={Journal} />
+      //         <Route path='/chat/chatbot' component={ChatBot}/>
+      //         <Route path='/chat/chat' component={Chat}/>
+      //       </Switch>
+      //     </div>
+      //   );
+      // }
 
         // ref.on('value', (snapshot) => {
         //     let user = snapshot.val();
         //     console.log(user);
         // });
 
-        // if (this.state.user && this.state.user !== undefined) {
-        //     return (
-        //         <div>
-        //             <h1>
-        //                 Welcome to calmunity, {this.state.user.first_name}!
-        //             </h1>
-        //             <button>
-        //                 <Link to={{pathname: "/journal", state: {posts: this.state.posts}}}> Journal </Link>
-        //             </button>
-        //             <button>
-        //                 <Link to="/chat"> Chat </Link>
-        //             </button>
-        //             <button>
-        //                 <Link to="/chatbot"> Chat Bot</Link>
-        //             </button>
-        //         </div>
-        //     );
-        // } else {
-        //     return (<div />);
-        // }
+        if (this.state.user && this.state.user !== undefined) {
+            return (
+                <div>
+                    <h1>
+                        Welcome to calmunity, {this.state.user.first_name}!
+                    </h1>
+                    <button>
+                        <Link to={{pathname: "/journal", state: {posts: this.state.posts}}}> Journal </Link>
+                    </button>
+                    <button>
+                        <Link to="/chat"> Chat </Link>
+                    </button>
+                    <button>
+                        <Link to="/chatbot"> Chat Bot</Link>
+                    </button>
+                </div>
+            );
+        } else {
+            return (<div />);
+        }
+      }
   }
